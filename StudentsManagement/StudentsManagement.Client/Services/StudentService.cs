@@ -20,9 +20,12 @@ namespace StudentsManagement.Client.Services
             return await studentResponse.Content.ReadFromJsonAsync<Student>();
         }
 
-        public Task<bool> DeleteStudentAsync(int id)
+        public async Task<bool> DeleteStudentAsync(int id)
         {
-            throw new NotImplementedException();
+            var studentResponse = await _httpClient.DeleteAsync($"api/Student/DeleteStudent/{id}");
+
+            return studentResponse.IsSuccessStatusCode;
+
         }
 
         public Task<Student> GetStudentByIdAsync(int id)
