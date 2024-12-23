@@ -16,7 +16,7 @@ builder.Services.AddScoped<IStudentRepository, StudentService>();
 
 builder.Services.AddScoped(http => new HttpClient
 {
-    BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
+    BaseAddress = new Uri(builder.Configuration.GetSection("BaseAddress").Value!)
 });
 
 
