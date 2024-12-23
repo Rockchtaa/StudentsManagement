@@ -1,5 +1,52 @@
-﻿<h3>Student List</h3>
+﻿@page "/studentlist"
 
-@code {
+@using Microsoft.AspNetCore.Authorization
+@using StudentsManagement.Client.Services
+@using StudentsManagement.Shared.Models
+@rendermode InteractiveAuto
 
+@inject IStudentRepository studentService
+
+<div class="container">
+    <h1>Student List</h1>
+    <p><a class="btn btn-primary" href="/add-student">Add Student</a></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>PhoneNumber</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in students)
+            {
+                <tr>
+                    <td>@student.Id</td>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+                    <td>@student.EmailAddress</td>
+                    <td>@student.PhoneNumber</td>
+                    <td>
+                        <a class="btn btn-primary" href="/edit-student/@student.Id">Edit</a>
+                        <a class="btn btn-danger" href="/delete-student/@student.Id">Delete</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    private List<Student> students = new List<Student>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        students = await studentService.GetStudentsAsync();
+    }
 }

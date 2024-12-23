@@ -1,0 +1,117 @@
+﻿@page "/edit-student/{id:int}"
+
+@using Microsoft.AspNetCore.Authorization
+@using StudentsManagement.Client.Services
+@using StudentsManagement.Shared.Models
+@rendermode InteractiveAuto
+@inject NavigationManager NavigationManager
+@inject IStudentRepository studentService
+
+
+<h3>Update New Student</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <EditForm Model="@studobj" OnValidSubmit="@UpdateStudent" FormName="UpdateStudentForm">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group row">
+                        <label for="firstName" class="form-control">First Name</label>
+                        <InputText for="FirstName" class="form-control col-sm-10" @bind-Value="@studobj.FirstName" />
+                        <ValidationMessage for="() => studobj.FirstName" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group row">
+                        <label for="lastName" class="form-control">Last Name</label>
+                        <InputText for="lastName" class="form-control col-sm-10" @bind-Value="@studobj.LastName" />
+                        <ValidationMessage for="() => studobj.LastName" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group row">
+                        <label for="email" class="form-control">Email</label>
+                        <InputText for="EmailAddress" class="form-control col-sm-10" @bind-Value="@studobj.EmailAddress" />
+
+                        <ValidationMessage for="() => studobj.EmailAddress" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group row">
+                        <label for="phone" class="form-control">Phone</label>
+                        <InputText for="PhoneNumber" class="form-control col-sm-10" @bind-Value="@studobj.PhoneNumber" />
+                        <ValidationMessage for="() => studobj.PhoneNumber" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group row">
+                        <label for="address" class="form-control">Address</label>
+                        <InputText for="Address" class="form-control col-sm-10" @bind-Value="@studobj.Address" />
+                        <ValidationMessage for="() => studobj.Address" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group row">
+                        <label for="city" class="form-control">Country</label>
+                        <InputText for="Country" class="form-control col-sm-10" @bind-Value="@studobj.Country" />
+                        <ValidationMessage for="() => studobj.Country" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary" onclick="() => CreateStudent()">Save Student</button>
+            </div>
+            <div class="form-group mt-4">
+                <button type="submit" onclick="() => Cancel()" class="btn btn-primary">cancel</button>
+            </div>
+
+        </EditForm>
+
+
+    </div>
+</div>
+
+    @code {
+        [SupplyParameterFromForm]
+        public Student studobj { get; set; } = new Student();
+
+        [Parameter]
+        public int id { get; set; }
+
+
+        protected override async Task OnInitializedAsync()
+        {
+            studobj = await studentService.GetStudentByIdAsync(id);
+        }
+
+        protected async Task UpdateStudent()
+        {
+            var result = await studentService.UpdateStudentAsync(studobj);
+
+            NavigationManager.NavigateTo("/studentlist");
+
+        }
+
+        protected void Cancel()
+        {
+            NavigationManager.NavigateTo("/studentlist");
+        }
+
+    }
+
+
+
