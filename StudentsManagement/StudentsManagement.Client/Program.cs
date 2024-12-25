@@ -13,6 +13,7 @@ builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticat
 
 
 builder.Services.AddScoped<IStudentRepository, StudentService>();
+builder.Services.AddScoped<ICountryRepository, CountryService>();
 
 builder.Services.AddScoped(http => new HttpClient
 {
