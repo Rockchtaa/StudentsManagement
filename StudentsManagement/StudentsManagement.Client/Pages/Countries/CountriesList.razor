@@ -2,7 +2,9 @@
 @using StudentsManagement.Shared.Models
 @using StudentManagamentShared.Models
 @inject NavigationManager navigation;
-@inject IJSRuntime JsRuntime
+@inject ICountryRepository countryService
+@rendermode InteractiveAuto
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -40,10 +42,10 @@
                                                     <td>@country.Code</td>
                                                     <td>@country.Name</td>
                                                     <td>
-                                                        <a class="btn btn-success" href="/country/edit/@country.Id"> Edit </a>
+                                                        <a class="btn btn-success" href="/edit-Country/@country.Id"> Edit </a>                        
                                                     </td>
                                                     <td>
-                                                        <a class="btn btn-danger" href="/country/delete/@country.Id"> Delete </a>
+                                                        <a class="btn btn-danger" href="/delete-Country/@country.Id"> Delete </a>
                                                     </td>
                                                 </tr>
                                             }
@@ -64,19 +66,11 @@
 </div>
 
 @code {
-    public List<Country> AllCountries { get; set; } = new();
-
-    public Country country = new Country();
+ 
+    private List<Country> AllCountries = new List<Country>();
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadAllCountries();
-    }
-    public async Task LoadAllCountries()
-    {
-
-
-        AllCountries.Clear();
-
+        AllCountries = await countryService.GetCountriesAsync();
     }
 }
