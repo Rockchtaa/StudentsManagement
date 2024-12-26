@@ -1,0 +1,62 @@
+﻿@page "/add-systemcode"
+@using StudentManagamentShared.Models
+@using StudentsManagement.Shared.Models
+@inject NavigationManager navigation;
+@inject ISystemCodeRepository SystemCodeService
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title m-0">Add New Country</h3>
+            </div>
+            <div class="card-body p-4">
+                <EditForm Model="@SystemeCodeObj" OnValidSubmit="CreateSystemCode" FormName="add-systemcode" class="needs-validation">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="text-danger mb-3" />
+
+                    <div class="row">
+                        <!-- Country Code -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="systemCode" class="form-label">System Code</label>
+                                <InputText id="systemCode" class="form-control" @bind-Value="@SystemeCodeObj.Code" />
+                                <ValidationMessage for="() => SystemeCodeObj.Code" class="text-danger small" />
+                            </div>
+                        </div>
+
+                        <!-- Country Name -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="systemDescription" class="form-label">System Code Description</label>
+                                <InputText id="systemDescription" class="form-control" @bind-Value="@SystemeCodeObj.Description" />
+                                <ValidationMessage for="() => SystemeCodeObj.Description" class="text-danger small" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="form-group mt-4 d-flex justify-content-end gap-2">
+                        <button type="submit" class="btn btn-primary">Save System code</button>
+                        <button type="button" @onclick="Cancel" class="btn btn-danger">Back to List</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public SystemeCode SystemeCodeObj { get; set; } = new SystemeCode();
+
+    protected async Task CreateSystemCode()
+    {
+        var result = await SystemCodeService.AddAsync(SystemeCodeObj);
+        navigation.NavigateTo("/SystemCodelist");
+    }
+    public void Cancel()
+    {
+        navigation.NavigateTo("/SystemCodelist");
+    }
+}

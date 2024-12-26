@@ -1,93 +1,105 @@
 ﻿@page "/add-student"
 
 @using Microsoft.AspNetCore.Authorization
+@using StudentManagamentShared.Models
 @using StudentsManagement.Client.Services
 @using StudentsManagement.Shared.Models
 @rendermode InteractiveAuto
 @inject NavigationManager NavigationManager
 @inject IStudentRepository studentService
+@inject ICountryRepository CountryService
+
 
 
 <h3>Add New Student</h3>
 
 <hr />
-<div class="row">
+<div class="row mt-4">
     <div class="col-md-12">
-        <EditForm Model="@studobj" OnValidSubmit="@CreateStudent" FormName="studentForm">
+        <EditForm Model="@studobj" OnValidSubmit="@CreateStudent" FormName="studentForm" class="p-4 border rounded shadow">
             <DataAnnotationsValidator />
             <ValidationSummary />
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="form-group row">
-                            <label for="firstName" class="form-control">First Name</label>
-                            <InputText for="FirstName" class="form-control col-sm-10" @bind-Value="@studobj.FirstName" />
-                             <ValidationMessage for="() => studobj.FirstName" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="form-group row">
-                            <label for="lastName" class="form-control">Last Name</label>
-                        <InputText for="lastName" class="form-control col-sm-10" @bind-Value="@studobj.LastName" />
-                        <ValidationMessage for="() => studobj.LastName" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="form-group row">
-                            <label for="email" class="form-control">Email</label>
-                            <InputText for="EmailAddress" class="form-control col-sm-10" @bind-Value="@studobj.EmailAddress" />
 
-                            <ValidationMessage for="() => studobj.EmailAddress" />
-                        </div>
+            <div class="row">
+                <!-- First Name -->
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <InputText id="firstName" class="form-control" @bind-Value="@studobj.FirstName" />
+                        <ValidationMessage for="() => studobj.FirstName" class="text-danger small" />
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="form-group row">
-                            <label for="phone" class="form-control">Phone</label>
-                            <InputText for="PhoneNumber" class="form-control col-sm-10" @bind-Value="@studobj.PhoneNumber" />
-                            <ValidationMessage for="() => studobj.PhoneNumber" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="form-group row">
-                            <label for="address" class="form-control">Address</label>
-                           <InputText for="Address" class="form-control col-sm-10" @bind-Value="@studobj.Address" />
-                            <ValidationMessage for="() => studobj.Address" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="form-group row"> 
-                            <label for="city" class="form-control">Country</label>
-                            <InputText for="Country" class="form-control col-sm-10" @bind-Value="@studobj.Country" />
-                            <ValidationMessage for="() => studobj.Country" />
-                        </div>
-                    </div>
 
+                <!-- Last Name -->
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <InputText id="lastName" class="form-control" @bind-Value="@studobj.LastName" />
+                        <ValidationMessage for="() => studobj.LastName" class="text-danger small" />
+                    </div>
                 </div>
-                <div class="form-group mt-4">
-                <button type="submit" class="btn btn-primary" onclick="() => CreateStudent()">Save Student</button>
+
+                <!-- Email -->
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <InputText id="email" class="form-control" @bind-Value="@studobj.EmailAddress" />
+                        <ValidationMessage for="() => studobj.EmailAddress" class="text-danger small" />
+                    </div>
                 </div>
-            <div class="form-group mt-4">
-                <button type="submit" onclick="() => Cancel()" class="btn btn-primary">cancel</button>
+
+                <!-- Phone -->
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone</label>
+                        <InputText id="phone" class="form-control" @bind-Value="@studobj.PhoneNumber" />
+                        <ValidationMessage for="() => studobj.PhoneNumber" class="text-danger small" />
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="address" class="form-label">Address</label>
+                        <InputText id="address" class="form-control" @bind-Value="@studobj.Address" />
+                        <ValidationMessage for="() => studobj.Address" class="text-danger small" />
+                    </div>
+                </div>
+
+                <!-- Country -->
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="country" class="form-label">Country</label>
+                        <InputSelect id="country" class="form-select" @bind-Value="@studobj.Country">
+                            @foreach (var country in countrylist)
+                            {
+                                <option value="@country.Name">@country.Name</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage for="() => studobj.Country" class="text-danger small" />
+                    </div>
+                </div>
             </div>
 
+            <!-- Buttons -->
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary me-2">Save Student</button>
+                <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+            </div>
         </EditForm>
-
-
     </div>
 </div>
 @code {
     @code {
         [SupplyParameterFromForm]
         public Student studobj { get; set; } = new Student();
+
+        List<Country> countrylist = new List<Country>();
+
+        protected override async Task OnInitializedAsync()
+        {
+            countrylist = await CountryService.GetCountriesAsync();
+        }
 
         protected async Task CreateStudent()
         {
@@ -106,3 +118,4 @@
     
 
 }
+
