@@ -69,6 +69,7 @@
  
     private List<Country> AllCountries = new List<Country>();
 
+
     protected override async Task OnInitializedAsync()
     {
         AllCountries = await countryService.GetCountriesAsync();

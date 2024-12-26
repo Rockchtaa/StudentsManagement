@@ -2,50 +2,57 @@
 @using StudentManagamentShared.Models
 @using StudentsManagement.Shared.Models
 @inject NavigationManager navigation;
-
-<div class="row">
+@inject ICountryRepository countryService
+<div class="row mt-4">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Add New Country</h3>
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title m-0">Add New Country</h3>
             </div>
-            <div class="card-body">
-                <EditForm Model="countryobj" OnValidSubmit="CreateCountry" FormName="addCountry">
+            <div class="card-body p-4">
+                <EditForm Model="@countryobj" OnValidSubmit="CreateCountry" FormName="addCountry" class="needs-validation">
                     <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Country Code</label>
-                                    <InputText for="Code" class="form-control" @bind-Value="@countryobj.Code" />
-                                    <ValidationMessage For="()=>countryobj.Code" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Country Name</label>
-                                    <InputText for="Name" class="form-control" @bind-Value="@countryobj.Name" />
-                                    <ValidationMessage For="()=>countryobj.Name" />
-                                </div>
+                    <ValidationSummary class="text-danger mb-3" />
+
+                    <div class="row">
+                        <!-- Country Code -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="countryCode" class="form-label">Country Code</label>
+                                <InputText id="countryCode" class="form-control" @bind-Value="@countryobj.Code" />
+                                <ValidationMessage for="() => countryobj.Code" class="text-danger small" />
                             </div>
                         </div>
-                        <div class="form-group mt-4">
-                            <button type="submit" class="btn btn-primary">Save Country</button>
-                            <button type="button" @onclick="()=>Cancel()" class="btn btn-danger">Back to List</button>
+
+                        <!-- Country Name -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="countryName" class="form-label">Country Name</label>
+                                <InputText id="countryName" class="form-control" @bind-Value="@countryobj.Name" />
+                                <ValidationMessage for="() => countryobj.Name" class="text-danger small" />
+                            </div>
                         </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="form-group mt-4 d-flex justify-content-end gap-2">
+                        <button type="submit" class="btn btn-primary">Save Country</button>
+                        <button type="button" @onclick="Cancel" class="btn btn-danger">Back to List</button>
                     </div>
                 </EditForm>
             </div>
         </div>
     </div>
 </div>
+
 @code {
+
     [SupplyParameterFromForm]
-    public Country countryobj { get; set; } = new();
+    public Country countryobj { get; set; } = new Country();
 
     protected async Task CreateCountry()
     {
+        var result = await countryService.AddCountryAsync(countryobj);
         navigation.NavigateTo("/countrylist");
     }
     public void Cancel()

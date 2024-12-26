@@ -1,0 +1,72 @@
+﻿@page "/delete-country/{id:int}"
+
+@using Microsoft.AspNetCore.Authorization
+@using StudentManagamentShared.Models
+@using StudentsManagement.Client.Services
+@using StudentsManagement.Shared.Models
+@inject NavigationManager NavigationManager
+@inject ICountryRepository countryService
+@rendermode InteractiveAuto
+
+
+<h3>Delete Country</h3>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>Country Name</label>
+            <input type="text" class="form-control" value="@Countryobj.Name" disabled />
+        </div>
+
+        <div class="form-group">
+            <label>Country Code</label>
+            <input type="text" class="form-control" value="@Countryobj.Code" disabled />
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button class="btn btn-danger" @onclick="DeleteCountryAsync">Delete</button>
+                <button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+@code {
+
+    public Country Countryobj { get; set; } = new Country();
+
+    [Parameter]
+    public int id { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countryobj = await countryService.GetCountryByIdAsync(id);
+    }
+
+    protected async Task<bool> DeleteCountryAsync()
+    {
+        await countryService.DeleteCountryAsync(id);
+        NavigationManager.NavigateTo("/studentlist");
+        return true;
+    }
+
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("/countrylist");
+    }
+
+
+
+
+}

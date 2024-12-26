@@ -12,40 +12,48 @@
 <h3>Update New Student</h3>
 
 <hr />
-<div class="row">
+<div class="row mt-4">
     <div class="col-md-12">
-        <EditForm Model="@Countryobj" OnValidSubmit="@UpdateCountry" FormName="UpdateStudentForm">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="form-group row">
-                        <label for="Name" class="form-control">Name</label>
-                        <InputText for="Name" class="form-control col-sm-10" @bind-Value="@Countryobj.Name" />
-                        <ValidationMessage for="() => Countryobj.Name" />
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title m-0">Update Country</h3>
+            </div>
+            <div class="card-body p-4">
+                <EditForm Model="@Countryobj" OnValidSubmit="@UpdateCountry" FormName="UpdateStudentForm" class="needs-validation">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="text-danger mb-3" />
+
+                    <div class="row">
+                        <!-- Country Name -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="Name" class="form-label">Name</label>
+                                <InputText id="Name" class="form-control" @bind-Value="@Countryobj.Name" />
+                                <ValidationMessage for="() => Countryobj.Name" class="text-danger small" />
+                            </div>
+                        </div>
+
+                        <!-- Country Code -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="Code" class="form-label">Code</label>
+                                <InputText id="Code" class="form-control" @bind-Value="@Countryobj.Code" />
+                                <ValidationMessage for="() => Countryobj.Code" class="text-danger small" />
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="row"> 
-                    <div class="form-group row">
-                        <label for="Code" class="form-control">Code</label>
-                        <InputText for="Code" class="form-control col-sm-10" @bind-Value="@Countryobj.Code" />
-                        <ValidationMessage for="() => Countryobj.Code" />
+
+                    <!-- Buttons -->
+                    <div class="form-group mt-4 d-flex justify-content-end gap-2">
+                        <button type="submit" class="btn btn-primary">Save Country</button>
+                        <button type="button" @onclick="Cancel" class="btn btn-danger">Cancel</button>
                     </div>
-                </div>
+                </EditForm>
             </div>
-
-            <div class="form-group mt-4">
-                <button type="submit" class="btn btn-primary" onclick="() => CreateCountry()">Save Country</button>
-            </div>
-            <div class="form-group mt-4">
-                <button type="submit" onclick="() => Cancel()" class="btn btn-primary">cancel</button>
-            </div>
-
-        </EditForm>
-
-
+        </div>
     </div>
 </div>
+
 
 @code {
     [SupplyParameterFromForm]
