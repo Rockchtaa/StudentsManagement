@@ -14,11 +14,11 @@ builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticat
 
 builder.Services.AddScoped<IStudentRepository, StudentService>();
 builder.Services.AddScoped<ICountryRepository, CountryService>();
+builder.Services.AddScoped<ISystemCodeRepository, SystemCodeService>();
 
 builder.Services.AddScoped(http => new HttpClient
 {
     BaseAddress = new Uri(builder.Configuration.GetSection("BaseAddress").Value!)
 });
-
 
 await builder.Build().RunAsync();
