@@ -6,11 +6,11 @@ using StudentsManagement.Shared.Models;
 
 namespace StudentsManagement.Services
 {
-    public class CountryRespository : ICountryRepository
+    public class CountryRepository : ICountryRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public CountryRespository(ApplicationDbContext context)
+        public CountryRepository(ApplicationDbContext context)
         {
             this._context = context;
         }
@@ -27,12 +27,13 @@ namespace StudentsManagement.Services
 
         public async Task<bool> DeleteCountryAsync(int id)
         {
-            var country = _context.students.Find(id);
+            var country = _context.Countries.Find(id);
             if (country == null) return false;
-            _context.students.Remove(country);
+            _context.Countries.Remove(country);
             await _context.SaveChangesAsync();
             return true;
         }
+
 
         public async Task<List<Country>> GetCountriesAsync()
         {
