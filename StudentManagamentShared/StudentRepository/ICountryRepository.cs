@@ -9,9 +9,9 @@ namespace StudentManagamentShared.StudentRepository
 {
     public interface ICountryRepository
     {
-        Task<List<Country>> GetCountriesAsync();
-        Task<Country> GetCountryByIdAsync(int id);
         Task<Country> AddCountryAsync(Country country);
+        Task<Country> GetCountryByIdAsync(int id);
+        Task<List<Country>> GetCountriesAsync();
         Task<Country> UpdateCountryAsync(Country country);
         Task<bool> DeleteCountryAsync(int id);
     }
