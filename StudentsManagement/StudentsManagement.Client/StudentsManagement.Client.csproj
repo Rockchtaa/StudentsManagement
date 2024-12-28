@@ -17,8 +17,4 @@
     <ProjectReference Include="..\..\StudentManagamentShared\StudentManagamentShared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\SystemCodeDetail\" />
-  </ItemGroup>
-
 </Project>
