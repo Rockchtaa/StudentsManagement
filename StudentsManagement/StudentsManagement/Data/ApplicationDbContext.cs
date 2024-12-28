@@ -14,5 +14,9 @@ namespace StudentsManagement.Data
 
         public DbSet<SystemCodeDetails> SystemCodeDetails { get; set; }
 
+        public DbSet<Parent> Parents { get; set; }
+
+
+
     }
 }
