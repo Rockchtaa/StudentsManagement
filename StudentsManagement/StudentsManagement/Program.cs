@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StudentManagamentShared.StudentRepository;
 using StudentsManagement.Client.Pages;
+using StudentsManagement.Client.Repository;
 using StudentsManagement.Components;
 using StudentsManagement.Components.Account;
 using StudentsManagement.Data;
@@ -43,6 +44,8 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 builder.Services.AddScoped<ISystemCodeRepository, SystemCodeRepository>();
+builder.Services.AddScoped<ISystemCodeDetailsRepository, SystemCodeDetailRepository>();
+builder.Services.AddScoped<IParentRepository, ParentRepository>();
 
 
 builder.Services.AddScoped(http => new HttpClient
